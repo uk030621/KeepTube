@@ -21,17 +21,23 @@ export async function POST(req) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+
+    // Get email from correct location
+    const email = session.customer_email || session.customer_details?.email;
+
+    if (!email) {
+      console.error("❌ No email found in session payload");
+      return new NextResponse("No email found", { status: 400 });
+    }
+
     await connectDB();
 
     const result = await User.findOneAndUpdate(
-      { email: session.customer_details.email }, // ✅ FIXED LINE
+      { email },
       { access: "paid", visitCount: 0 }
     );
 
-    console.log(
-      `✅ Updated user ${session.customer_details.email} to paid`,
-      result
-    );
+    console.log(`✅ Updated user ${email} to paid`, result);
   }
 
   return new NextResponse("Webhook received", { status: 200 });

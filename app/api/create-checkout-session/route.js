@@ -1,44 +1,42 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { headers } from "next/headers";
-import connectDB from "@/lib/mongodbmongoose";
-import User from "@/models/user";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+//const SUPPORTED_CURRENCIES = ["gbp", "usd", "eur"]; // You can add more if needed
 
 export async function POST(req) {
-  const body = await req.text();
-  const sig = headers().get("stripe-signature");
-
-  let event;
   try {
-    event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
+    const { email } = await req.json();
+    console.log("Email passed to session:", email);
+
+    // Default to GBP if currency is not provided or unsupported
+    /*const chosenCurrency = SUPPORTED_CURRENCIES.includes(
+      currency?.toLowerCase()
+    )
+      ? currency.toLowerCase()
+      : "gbp";*/
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      customer_email: email,
+      line_items: [
+        {
+          price: "price_1Rg6oNGSWIWOn8Xh7MUQyzRI",
+          quantity: 1,
+        },
+      ],
+      success_url: `${req.nextUrl.origin}/success`,
+      cancel_url: `${req.nextUrl.origin}/cancel`,
+    });
+
+    return NextResponse.json({ sessionId: session.id });
   } catch (err) {
-    console.error("❌ Stripe signature verification failed:", err.message);
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
-  }
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-
-    // Get email from correct location
-    const email = session.customer_email || session.customer_details?.email;
-
-    if (!email) {
-      console.error("❌ No email found in session payload");
-      return new NextResponse("No email found", { status: 400 });
-    }
-
-    await connectDB();
-
-    const result = await User.findOneAndUpdate(
-      { email },
-      { access: "paid", visitCount: 0 }
+    console.error("Stripe checkout error:", err);
+    return NextResponse.json(
+      { error: "Error creating Stripe session" },
+      { status: 500 }
     );
-
-    console.log(`✅ Updated user ${email} to paid`, result);
   }
-
-  return new NextResponse("Webhook received", { status: 200 });
 }

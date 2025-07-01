@@ -24,11 +24,14 @@ export async function POST(req) {
     await connectDB();
 
     const result = await User.findOneAndUpdate(
-      { email: session.customer_email },
+      { email: session.customer_details.email }, // ✅ FIXED LINE
       { access: "paid", visitCount: 0 }
     );
 
-    console.log(`✅ Updated user ${session.customer_email} to paid`, result);
+    console.log(
+      `✅ Updated user ${session.customer_details.email} to paid`,
+      result
+    );
   }
 
   return new NextResponse("Webhook received", { status: 200 });

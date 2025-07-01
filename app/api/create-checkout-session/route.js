@@ -22,7 +22,7 @@ export async function POST(req) {
       customer_email: email,
       line_items: [
         {
-          price: "price_1Rfjq0GgVjzK73l9ZUeJXZCf",
+          price: "prod_SbJRG7iLlgo2Y3",
           quantity: 1,
         },
       ],

@@ -156,10 +156,10 @@ const YouTubeSearch = () => {
 
         <div className="flex justify-between items-center mt-4">
           <button
-            className="bg-black text-white p-2 rounded-md"
+            className="bg-purple-600 text-white p-2 rounded-md"
             onClick={() => router.back()}
           >
-            ⬅️ Back
+            Back
           </button>
         </div>
 
@@ -180,7 +180,7 @@ const YouTubeSearch = () => {
             </button>
             <button
               onClick={handleClear}
-              className="bg-black text-white p-2 rounded-md w-full sm:w-auto"
+              className="bg-purple-600 text-white p-2 rounded-md w-full sm:w-auto"
             >
               Clear/Reset
             </button>
@@ -246,7 +246,7 @@ const YouTubeSearch = () => {
                   </button>
 
                   <button
-                    className="bg-green-500 text-white px-3 py-1 rounded-md"
+                    className="bg-purple-600 text-white px-3 py-1 rounded-md"
                     onClick={() =>
                       handleCopyVideoID(video.id.videoId, video.snippet.title)
                     }

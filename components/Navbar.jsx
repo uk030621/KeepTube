@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <header>
       <nav className="navbar">
-        <div className="nav-links-container">
+        <div className="">
           <ul className="nav-links flex justify-center items-center">
             <li>
               <Link href="/" className="text-xs md:text-lg lg:text-xl">

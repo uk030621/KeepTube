@@ -32,9 +32,9 @@ header {
 
 .navbar {
   display: flex;
-  justify-content: space-between; /* Space out elements across the navbar */
+  justify-content: space-evenly; /* Space out elements across the navbar */
   align-items: center;
-  max-width: 1200px;
+
   margin: 0 auto;
   padding: 0.5rem 0rem;
 }

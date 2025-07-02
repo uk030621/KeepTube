@@ -101,10 +101,10 @@ export default function SearchComponent() {
       <div className="flex flex-col items-center p-8 w-full max-w-lg mx-auto ">
         <h1 className="text-2xl font-bold mb-4">URL Search</h1>
         <button
-          className="bg-black text-white px-4 py-2 rounded mb-4"
+          className="bg-purple-600 text-white px-4 py-2 rounded mb-4"
           onClick={() => router.back()}
         >
-          ⬅️ Back
+          Back
         </button>
         <form onSubmit={handleSearch} className="flex flex-col gap-4 w-72">
           <input
@@ -128,7 +128,7 @@ export default function SearchComponent() {
             <button
               type="button"
               onClick={handleClear}
-              className="px-3 py-2 bg-black text-white rounded w-40"
+              className="px-3 py-2 bg-purple-600 text-white rounded w-40"
             >
               Clear/Reset
             </button>
@@ -160,7 +160,7 @@ export default function SearchComponent() {
                     <td className="border p-2">
                       <button
                         onClick={() => handleCopy(result.url, result.title)}
-                        className="bg-red-500 text-white px-3 py-1 rounded"
+                        className="bg-purple-600 text-white px-3 py-1 rounded"
                       >
                         Select
                       </button>

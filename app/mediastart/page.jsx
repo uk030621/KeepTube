@@ -105,7 +105,7 @@ export default function HomePage() {
               )}*/}
             </div>
             {access === "paid" ? (
-              <p className="text-sm text-green-700  font-semibold">
+              <p className="text-sm text-purple-600  font-semibold">
                 Full Access User
               </p>
             ) : visitCount !== null ? (
@@ -145,7 +145,7 @@ export default function HomePage() {
           <div className="mt-2">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-fit text-sm bg-slate-900 hover:bg-slate-600 text-white px-2 py-1 rounded text-center"
+              className="w-fit text-sm bg-purple-600 hover:bg-slate-600 text-white px-2 py-1 rounded text-center"
             >
               {isDropdownOpen ? "Hide Guide ▴" : "User Guide ▾"}
             </button>
@@ -157,7 +157,7 @@ export default function HomePage() {
                 <ul className="list-disc list-inside text-gray-700">
                   <div className="flex gap-4 text-right">
                     <Link
-                      className="bg-amber-200 px-4 py-2 text-xs rounded-lg pt-2 text-right "
+                      className="bg-purple-600 text-white px-4 py-2 text-xs rounded-lg pt-2 text-right "
                       href="\contact"
                     >
                       Contact Developer
@@ -165,7 +165,7 @@ export default function HomePage() {
                     {/* Admin Link */}
                     {/* Admin Button */}
                     <button
-                      className="bg-amber-200 px-4 py-2 text-xs rounded-lg pt-2 text-right"
+                      className="bg-purple-600 text-white px-4 py-2 text-xs rounded-lg pt-2 text-right"
                       onClick={handleAdminClick}
                     >
                       Admin 🚫
@@ -294,7 +294,7 @@ export default function HomePage() {
                 >
                   ❤️ Add your favourite YouTube videos.
                 </Link>
-                <div className="border-4 rounded-lg bg-slate-200">
+                <div className="border-t-2 rounded-lg bg-purple-200">
                   <div
                     style={{
                       display: "flex",

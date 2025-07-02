@@ -197,7 +197,7 @@ export default function Home() {
               setSearchQuery("");
               handleSearch({ target: { value: "" } });
             }}
-            className="bg-gray-700 text-white px-4 h-10 rounded-md"
+            className="bg-purple-600 text-white px-4 h-10 rounded-md"
           >
             Clear
           </button>
@@ -227,7 +227,7 @@ export default function Home() {
             {filteredUrls.map((media) => (
               <li
                 key={media._id}
-                className="p-4 border bg-slate-300 rounded-md"
+                className="p-4 border bg-purple-300 rounded-md"
               >
                 <h3 className="text-lg text-black font-thin mb-2">
                   {decodeHtmlEntities(media.title)}

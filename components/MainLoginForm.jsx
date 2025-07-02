@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function MainLoginForm() {
   return (
-    <div className="flex justify-center items-start min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 p-4 pt-6">
+    <div className="flex justify-center items-start min-h-screen  bg-purple-500 p-4 pt-6">
       <div className="shadow-2xl p-8 rounded-2xl border-t-4 border-blue-600 max-w-md w-full text-center bg-purple-200 animate-fade-in">
         <h1 className="text-3xl font-extrabold mb-4 text-blue-800 animate-bounce">
           Welcome to <span className="text-purple-600">Media Library</span>

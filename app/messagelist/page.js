@@ -123,7 +123,7 @@ export default function MessageList() {
           {/* Unhide All Messages Button */}
           <button
             onClick={unhideAll}
-            className="mb-5 px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
+            className="mb-5 px-4 py-2 bg-purple-600 text-white  rounded"
           >
             Unhide All Messages
           </button>
@@ -140,7 +140,7 @@ export default function MessageList() {
           />
           <button
             onClick={clearSearch}
-            className="mt-2 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
+            className="mt-2 px-4 py-2 bg-purple-600 text-white rounded"
           >
             Clear Search
           </button>

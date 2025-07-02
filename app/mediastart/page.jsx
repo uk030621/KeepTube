@@ -145,7 +145,7 @@ export default function HomePage() {
           <div className="mt-2">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-fit text-sm bg-purple-600 hover:bg-slate-600 text-white px-2 py-1 rounded text-center"
+              className="w-fit text-sm bg-purple-600 text-white px-2 py-1 rounded text-center"
             >
               {isDropdownOpen ? "Hide Guide ▴" : "User Guide ▾"}
             </button>

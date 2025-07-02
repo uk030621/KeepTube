@@ -25,8 +25,8 @@ export default function CancelPage() {
           disabled={isLoading}
           className={`flex items-center gap-2 px-6 py-3 text-white rounded-lg transition-all ${
             isLoading
-              ? "bg-blue-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
+              ? "bg-purple-600 cursor-not-allowed"
+              : "bg-purple-500 hover:bg-purple-600"
           }`}
         >
           {isLoading && (

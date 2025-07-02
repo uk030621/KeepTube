@@ -32,7 +32,7 @@ export default function UpgradePage() {
       />
       <button
         onClick={handleExit}
-        className="mt-5 text-sm bg-slate-600 text-white hover:bg-slate-800 p-3 rounded-md"
+        className="mt-5 text-sm bg-purple-600 text-white p-3 rounded-md"
       >
         No thanks, exit application.
       </button>

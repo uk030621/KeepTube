@@ -174,7 +174,7 @@ const YouTubeSearch = () => {
           <div className="flex gap-4">
             <button
               onClick={handleSearch}
-              className="bg-blue-500 text-white p-2 rounded-md w-full sm:w-auto"
+              className="bg-green-700 text-white p-2 rounded-md w-full sm:w-auto"
             >
               Search
             </button>
@@ -231,7 +231,7 @@ const YouTubeSearch = () => {
 
                 <div className="flex gap-2 mt-2">
                   <button
-                    className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                    className="bg-green-700 text-white px-3 py-1 rounded-md"
                     onClick={() =>
                       setPreviewVideoId(
                         previewVideoId === video.id.videoId

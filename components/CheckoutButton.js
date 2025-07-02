@@ -65,7 +65,7 @@ export default function CheckoutButton({ items }) {
 
       <button
         onClick={handleCheckout}
-        className={`bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition ${
+        className={`bg-green-700 text-white px-6 py-2 rounded hover:bg-green-600 transition ${
           loading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={loading}

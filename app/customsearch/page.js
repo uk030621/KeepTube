@@ -120,7 +120,7 @@ export default function SearchComponent() {
               type="submit"
               disabled={loading}
               className={`px-4 py-2 text-white w-40 rounded ${
-                loading ? "bg-gray-500" : "bg-blue-600"
+                loading ? "bg-gray-500" : "bg-green-700"
               }`}
             >
               {loading ? "Searching..." : "Search"}

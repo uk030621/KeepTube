@@ -318,7 +318,7 @@ export default function HomePage() {
                       {videos[currentIndex].title}
                     </p>
 
-                    <div className="flex mt-4 gap-4">
+                    <div className="flex mt-4 gap-8">
                       <button
                         onClick={() =>
                           setCurrentIndex(
@@ -327,7 +327,7 @@ export default function HomePage() {
                         }
                         className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
                       >
-                        ← Previous
+                        ←
                       </button>
                       <button
                         onClick={() =>
@@ -335,7 +335,7 @@ export default function HomePage() {
                         }
                         className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
                       >
-                        Next →
+                        →
                       </button>
                     </div>
                   </div>

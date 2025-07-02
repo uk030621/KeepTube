@@ -351,7 +351,7 @@ export default function HomePage() {
                   ➕ Add URLs for quick reference.
                 </Link>
               </li>
-              <li className="mt-8 text-base font-thin">
+              <li className="mt-4 text-base font-thin">
                 <Link
                   href="/enhanced"
                   className="flex items-center gap-2 hover:text-blue-500"
@@ -359,7 +359,7 @@ export default function HomePage() {
                   🔍 Easily search your library.
                 </Link>
               </li>
-              <li className="mt-8 text-base font-thin">
+              <li className="mt-4 text-base font-thin">
                 <Link
                   href="/enhanced"
                   className="flex items-center gap-2 hover:text-blue-500"

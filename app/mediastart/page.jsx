@@ -14,7 +14,7 @@ export default function HomePage() {
     /*{ id: "sRxrwjOtIag", title: "Sample Video 1" },*/
     { id: "eUDVUZZyA0M", title: "Ludovico Einaudi - Experience" },
     { id: "LXb3EKWsInQ", title: "Beautiful Drone Footage" },
-    { id: "2Vv-BfVoq4g", title: "Ed Sheeran - Perfect" },
+    { id: "sRxrwjOtIag", title: "Taylor Swift - All Too Well" },
     { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up" },
   ];
 

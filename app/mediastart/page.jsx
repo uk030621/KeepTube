@@ -13,6 +13,9 @@ export default function HomePage() {
   const videos = [
     /*{ id: "sRxrwjOtIag", title: "Sample Video 1" },*/
     { id: "eUDVUZZyA0M", title: "Ludovico Einaudi - Experience" },
+    { id: "LXb3EKWsInQ", title: "Beautiful Drone Footage" },
+    { id: "2Vv-BfVoq4g", title: "Ed Sheeran - Perfect" },
+    { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up" },
   ];
 
   const { data: session } = useSession();
@@ -23,6 +26,7 @@ export default function HomePage() {
   const [showDialog, setShowDialog] = useState(false); // Track dialog visibility
   const [visitCount, setVisitCount] = useState(null);
   const [access, setAccess] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0); // Add this line ✅
 
   const handleAdminClick = () => {
     if (session?.user.email !== adminEmail) {
@@ -286,7 +290,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex justify-center items-center">
-            <ul className="text-left  mt-4 text-slate-800">
+            <ul className="text-left mt-4 text-slate-800">
               <li className="text-base font-thin">
                 <Link
                   href="/youtube"
@@ -294,52 +298,51 @@ export default function HomePage() {
                 >
                   ❤️ Add your favourite YouTube videos.
                 </Link>
-                <div className="border-t-2 rounded-lg bg-purple-200">
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {videos.map((video, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          margin: "0 10px",
-                          marginRight: "10px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
+
+                {/* === START Video Carousel === */}
+                <div className="border-t-2 rounded-lg bg-purple-200 mt-3 p-4">
+                  <div className="flex flex-col items-center">
+                    <YouTube
+                      videoId={videos[currentIndex].id}
+                      opts={{
+                        width: "300",
+                        height: "170",
+                        playerVars: {
+                          autoplay: 0,
+                          modestbranding: 1,
+                          rel: 0,
+                        },
+                      }}
+                    />
+                    <p className="mt-2 text-sm text-gray-700 text-center">
+                      {videos[currentIndex].title}
+                    </p>
+
+                    <div className="flex mt-4 gap-4">
+                      <button
+                        onClick={() =>
+                          setCurrentIndex(
+                            (prev) => (prev - 1 + videos.length) % videos.length
+                          )
+                        }
+                        className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
                       >
-                        <YouTube
-                          videoId={video.id}
-                          opts={{
-                            width: "250", // Adjust for responsiveness
-                            height: "150",
-                            playerVars: {
-                              autoplay: 0,
-                              modestbranding: 1,
-                              rel: 0,
-                            },
-                          }}
-                        />
-                        <p
-                          style={{
-                            marginTop: "5px",
-                            fontSize: "12px",
-                            color: "gray",
-                          }}
-                        >
-                          {video.title}
-                        </p>
-                      </div>
-                    ))}
+                        ← Previous
+                      </button>
+                      <button
+                        onClick={() =>
+                          setCurrentIndex((prev) => (prev + 1) % videos.length)
+                        }
+                        className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
+                      >
+                        Next →
+                      </button>
+                    </div>
                   </div>
                 </div>
+                {/* === END Video Carousel === */}
               </li>
+
               <li className="mt-8 text-base font-thin">
                 <Link
                   href="/customsearch"
@@ -361,12 +364,9 @@ export default function HomePage() {
                   href="/enhanced"
                   className="flex items-center gap-2 hover:text-blue-500"
                 >
-                  {" "}
                   🏠 Centralise your media links.
                 </Link>
               </li>
-
-              {/*<li className="mt-6">🏆 Bonus applications included.</li>*/}
             </ul>
           </div>
         </div>

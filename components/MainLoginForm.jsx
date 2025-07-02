@@ -5,44 +5,58 @@ import Image from "next/image";
 
 export default function MainLoginForm() {
   return (
-    <div className="grid place-items-start justify-center pt-8 h-screen bg-background ml-3 mr-3">
-      <div className="shadow-lg p-6 rounded-lg border-t-4 border-slate-900 max-w-md text-center bg-white">
-        <h1 className="text-2xl font-bold mb-4">Welcome to Media Library</h1>
-        <div className="flex justify-center mb-4">
+    <div className="flex justify-center items-start min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 p-4 pt-12">
+      <div className="shadow-2xl p-8 rounded-2xl border-t-4 border-blue-600 max-w-md w-full text-center bg-white animate-fade-in">
+        <h1 className="text-3xl font-extrabold mb-4 text-blue-800 animate-bounce">
+          Welcome to <span className="text-purple-600">Media Library</span>
+        </h1>
+
+        <div className="flex justify-center mb-6">
           <Image
-            src="/MediaLibrary.png" // Replace with your image file in /public
+            src="/MediaLibrary.png"
             alt="App preview"
-            width={100}
-            height={100}
-            className="rounded-lg mb-4"
+            width={140}
+            height={140}
+            className="rounded-xl shadow-md"
           />
         </div>
-        <p className="text-gray-700 text-base mb-4 leading-relaxed">
-          Enjoy a clean, ad-free experience while downloading and managing your
-          media. Seamless access, instant tools, and zero clutter. Media Library
-          makes your media workflow simple and secure.
+
+        <p className="text-gray-700 text-base mb-3 leading-relaxed">
+          📥 Enjoy a clean, ad-free experience while downloading and managing
+          your media.
         </p>
-        <p className="text-sm mt-2">Start with 3 complimentary visits.</p>
-        <p className="text-sm  mb-4">
-          Continue with full access for only £2.99.
+        <p className="text-gray-700 text-base mb-4">
+          🚀 Seamless access, instant tools, zero clutter — built for speed &
+          simplicity.
         </p>
+
+        <div className="bg-blue-100 text-blue-900 p-3 rounded-md shadow-sm mb-6 transition-transform duration-500 hover:scale-105">
+          <p className="font-medium">
+            🎁 Start with{" "}
+            <span className="font-bold">3 complimentary visits</span>
+          </p>
+          <p className="text-sm">
+            💎 Then unlock full access for only{" "}
+            <span className="font-bold">£2.99</span>
+          </p>
+        </div>
 
         <button
           type="button"
           onClick={() => signIn("google")}
-          className="text-lg px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded flex items-center justify-center w-full"
+          className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-center transition-transform duration-300 hover:scale-105"
         >
           <Image
             src="/G.png"
             alt="Google logo"
-            width={30}
-            height={30}
+            width={26}
+            height={26}
             className="rounded-md mr-2"
           />
           Sign In with Google
         </button>
 
-        <p className="mt-4 text-sm text-black">
+        <p className="mt-4 text-sm text-gray-700">
           Don&apos;t have a Google account?{" "}
           <Link
             href="https://support.google.com/accounts/answer/27441?hl=en"
@@ -54,6 +68,23 @@ export default function MainLoginForm() {
           </Link>
         </p>
       </div>
+
+      {/* Custom bounce animation for the title */}
+      <style jsx>{`
+        @keyframes limitedBounce {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        .custom-bounce {
+          animation: limitedBounce 0.6s ease-in-out 3;
+        }
+      `}</style>
     </div>
   );
 }

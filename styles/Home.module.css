@@ -12,7 +12,7 @@
 }
 
 .description {
-  font-size: 1rem;
+  font-size: clamp(1rem, 4vw, 2rem); /* Responsive font size */
   color: #1f1e1e;
   margin-top: 10px;
   font-weight: 600;
@@ -20,19 +20,17 @@
 
 /* Updated for compatibility */
 .gradientText {
-  font-size: 1.7rem;
-
+  font-size: clamp(1.7rem, 4vw, 2.5rem); /* Responsive font size */
   margin-bottom: 0;
 
-  background: linear-gradient(90deg, blue, red, blue); /* Gradient colors */
+  background: linear-gradient(90deg, blue, red, blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 
-  /* Webkit specific background-clip */
-  -webkit-background-clip: text; /* Safari and Chrome */
-
-  /* Standard background-clip */
-  background-clip: text; /* For modern browsers */
-
-  color: transparent; /* Make the text color transparent so the gradient shows */
+  font-weight: 600; /* Optional: improves visibility */
+  text-align: center; /* Optional: center-align for better layout on mobile */
+  line-height: 1.2;
 }
 
 /* Add this to your CSS file if needed */

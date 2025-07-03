@@ -17,7 +17,7 @@ export default function LiveClock() {
 
   return (
     <div className="flex justify-center gap-2 mb-1">
-      <p className="mr-5 text-sm font-thin text-black">
+      <p className=" text-sm font-thin text-black">
         {dateTime.toLocaleDateString()}
       </p>
       <p className="text-sm font-thin text-black">

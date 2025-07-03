@@ -59,7 +59,7 @@ export default function HomePage() {
     const defaultVideo = {
       url: "eUDVUZZyA0M",
       title:
-        "Add videos to start customising your media library. Ludovico Einaudi - Experience is just a sample video (I like it!).",
+        "Add videos to start customising your media library. Ludovico Einaudi - Experience is just a sample video.",
     };
     const fetchVideos = async () => {
       if (!session?.user?.id) {
@@ -127,7 +127,7 @@ export default function HomePage() {
 
           <div className="flex  flex-col justify-center mr-5">
             {/*<p className="font-thin ml-1 text-sm">{session?.user?.email}</p>*/}
-            <div className="flex justify-center gap-2 mb-1">
+            <div className="flex justify-center gap-2 mb-1 mt-2">
               <LiveClock />
               {/*{dateTime ? (
                 <>
@@ -328,7 +328,7 @@ export default function HomePage() {
               <li className="text-base font-thin">
                 <Link
                   href="/youtube"
-                  className="flex items-center gap-2 hover:text-blue-500"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
                 >
                   ❤️ Add your favourite YouTube videos.
                 </Link>
@@ -350,10 +350,15 @@ export default function HomePage() {
                         },
                       }}
                     />
-                    <p className="mt-2 text-sm text-gray-700 text-center">
+                    <p className="mt-2 text-xs font-extralight text-gray-700 text-center">
                       {videos[currentIndex]?.title}
                     </p>
-
+                    <Link
+                      href="/youtube"
+                      className="bg-purple-600 mt-2 text-xs text-white rounded-md px-3 py-1"
+                    >
+                      Search
+                    </Link>
                     <div className="flex mt-4 gap-8">
                       <button
                         onClick={() =>
@@ -361,21 +366,19 @@ export default function HomePage() {
                             (prev) => (prev - 1 + videos.length) % videos.length
                           )
                         }
-                        className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
+                        className="bg-purple-600 text-xs text-white px-3 py-1 rounded hover:bg-purple-700"
                       >
                         ←
                       </button>
-                      <Link
-                        href="/youtube"
-                        className="text-blue-500 hover:underline"
-                      >
-                        Search
-                      </Link>
+
+                      <span className="text-gray-700 text-sm font-medium">
+                        {currentIndex + 1} of {videos.length}
+                      </span>
                       <button
                         onClick={() =>
                           setCurrentIndex((prev) => (prev + 1) % videos.length)
                         }
-                        className="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
+                        className="bg-purple-600 text-xs text-white px-3 py-1 rounded hover:bg-purple-700"
                       >
                         →
                       </button>
@@ -385,26 +388,26 @@ export default function HomePage() {
                 {/* === END Video Carousel === */}
               </li>
 
-              <li className="mt-8 text-base font-thin">
+              <li className="mt-4 text-base font-thin">
                 <Link
                   href="/customsearch"
-                  className="flex items-center gap-2 hover:text-blue-500"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
                 >
                   ➕ Add URLs for quick reference.
                 </Link>
               </li>
-              <li className="mt-4 text-base font-thin">
+              <li className="mt-2 text-base font-thin">
                 <Link
                   href="/enhanced"
-                  className="flex items-center gap-2 hover:text-blue-500"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
                 >
                   🔍 Easily search your library.
                 </Link>
               </li>
-              <li className="mt-4 text-base font-thin">
+              <li className="mt-2 text-base font-thin">
                 <Link
                   href="/enhanced"
-                  className="flex items-center gap-2 hover:text-blue-500"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
                 >
                   🏠 Centralise your media links.
                 </Link>

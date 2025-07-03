@@ -1,53 +1,36 @@
 "use client";
 
-import styles from "@/styles/Home.module.css"; // Import the CSS module
-import YouTube from "react-youtube"; // Import the YouTube component
-//import { signOut } from "next-auth/react";
+import styles from "@/styles/Home.module.css";
+import YouTube from "react-youtube";
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // For redirection
-import LiveClock from "@/components/LiveClock"; // At the top
+import { useRouter } from "next/navigation";
+import LiveClock from "@/components/LiveClock";
 
 export default function HomePage() {
-  const videos = [
-    /*{ id: "sRxrwjOtIag", title: "Sample Video 1" },*/
-    { id: "eUDVUZZyA0M", title: "Ludovico Einaudi - Experience" },
-    { id: "LXb3EKWsInQ", title: "Beautiful Drone Footage" },
-    { id: "sRxrwjOtIag", title: "Taylor Swift - All Too Well" },
-    { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up" },
-  ];
-
   const { data: session } = useSession();
-  //const [dateTime, setDateTime] = useState(new Date());
-  const router = useRouter(); // Initialize router using useRouter
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown state
-  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL; // Access the admin email from env
-  const [showDialog, setShowDialog] = useState(false); // Track dialog visibility
+  const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const [visitCount, setVisitCount] = useState(null);
   const [access, setAccess] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0); // Add this line ✅
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+
+  // ▶ MediaStart logic
+
+  const [videos, setVideos] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playerRef = useRef(null);
 
   const handleAdminClick = () => {
     if (session?.user.email !== adminEmail) {
-      // Show dialog box
       setShowDialog(true);
     } else {
-      // Navigate to admin page
       router.push("/messagelist");
     }
   };
-
-  {
-    /*useEffect(() => {
-    const now = new Date();
-    setDateTime(now); // Set initial consistent value
-    const interval = setInterval(() => {
-      setDateTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);*/
-  }
 
   useEffect(() => {
     async function getUserStatus() {
@@ -55,10 +38,9 @@ export default function HomePage() {
       if (res.ok) {
         const data = await res.json();
         setVisitCount(data.visitCount);
-        setAccess(data.access); // should be "paid" or null
+        setAccess(data.access);
       }
     }
-
     if (session) getUserStatus();
   }, [session]);
 
@@ -71,6 +53,58 @@ export default function HomePage() {
     }
     checkAccess();
   }, [router]);
+
+  // ▶ Fetch videos from DB + include default
+  useEffect(() => {
+    const defaultVideo = {
+      url: "eUDVUZZyA0M",
+      title:
+        "Add videos to start customising your media library. Ludovico Einaudi - Experience is just a sample video (I like it!).",
+    };
+    const fetchVideos = async () => {
+      if (!session?.user?.id) {
+        setVideos([defaultVideo]);
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/urlhtml?userId=${session.user.id}`);
+        const data = await res.json();
+
+        if (res.ok && data.urls.length > 0) {
+          const formatted = data.urls.map((v) => ({
+            url: v.url,
+            title: v.title,
+          }));
+          setVideos([defaultVideo, ...formatted]);
+        } else {
+          setVideos([defaultVideo]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch videos:", err);
+        setVideos([defaultVideo]);
+      }
+    };
+
+    fetchVideos();
+  }, [session]);
+
+  // ▶ Auto-rotate if not playing
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isPlaying && videos.length > 1) {
+        setCurrentIndex((prev) => (prev + 1) % videos.length);
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [isPlaying, videos.length]);
+
+  const onPlayerStateChange = (event) => {
+    const state = event.data;
+    if (state === 1) setIsPlaying(true); // playing
+    else if (state === 2 || state === 0) setIsPlaying(false); // paused or ended
+  };
 
   return (
     <div className="background-container bg-background">
@@ -303,7 +337,9 @@ export default function HomePage() {
                 <div className="border-t-2 rounded-lg bg-purple-200 mt-3 p-4">
                   <div className="flex flex-col items-center">
                     <YouTube
-                      videoId={videos[currentIndex].id}
+                      videoId={videos[currentIndex]?.url}
+                      onStateChange={onPlayerStateChange}
+                      onReady={(e) => (playerRef.current = e.target)}
                       opts={{
                         width: "300",
                         height: "170",
@@ -315,7 +351,7 @@ export default function HomePage() {
                       }}
                     />
                     <p className="mt-2 text-sm text-gray-700 text-center">
-                      {videos[currentIndex].title}
+                      {videos[currentIndex]?.title}
                     </p>
 
                     <div className="flex mt-4 gap-8">
@@ -329,6 +365,12 @@ export default function HomePage() {
                       >
                         ←
                       </button>
+                      <Link
+                        href="/youtube"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Search
+                      </Link>
                       <button
                         onClick={() =>
                           setCurrentIndex((prev) => (prev + 1) % videos.length)

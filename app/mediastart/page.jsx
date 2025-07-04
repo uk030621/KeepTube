@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LiveClock from "@/components/LiveClock";
+import { isYouTubeUrl } from "@/lib/mediaHelpers";
 
 export default function HomePage() {
   const { data: session } = useSession();
@@ -61,6 +62,7 @@ export default function HomePage() {
       title:
         "Add videos to start customising your media library. Ludovico Einaudi - Experience is just a sample video.",
     };
+
     const fetchVideos = async () => {
       if (!session?.user?.id) {
         setVideos([defaultVideo]);
@@ -72,7 +74,8 @@ export default function HomePage() {
         const data = await res.json();
 
         if (res.ok && data.urls.length > 0) {
-          const formatted = data.urls.map((v) => ({
+          const youtubeOnly = data.urls.filter((v) => isYouTubeUrl(v.url));
+          const formatted = youtubeOnly.map((v) => ({
             url: v.url,
             title: v.title,
           }));
@@ -328,7 +331,7 @@ export default function HomePage() {
               <li className="text-base font-thin">
                 <Link
                   href="/youtube"
-                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-xl md:text-2xl lg:text-3xl"
                 >
                   ❤️ Add your favourite YouTube videos.
                 </Link>
@@ -357,7 +360,7 @@ export default function HomePage() {
                       href="/youtube"
                       className="bg-purple-600 mt-2 text-xs text-white rounded-md px-3 py-1"
                     >
-                      Search
+                      Search & add more videos
                     </Link>
                     <div className="flex mt-4 gap-8">
                       <button
@@ -391,23 +394,23 @@ export default function HomePage() {
               <li className="mt-4 text-base font-thin">
                 <Link
                   href="/customsearch"
-                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-xl md:text-2xl lg:text-3xl"
                 >
                   ➕ Add URLs for quick reference.
                 </Link>
               </li>
-              <li className="mt-2 text-base font-thin">
+              <li className="mt-3 text-base font-thin">
                 <Link
                   href="/enhanced"
-                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-xl md:text-2xl lg:text-3xl"
                 >
                   🔍 Easily search your library.
                 </Link>
               </li>
-              <li className="mt-2 text-base font-thin">
+              <li className="mt-3 text-base font-thin">
                 <Link
                   href="/enhanced"
-                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-2xl md:text-3xl lg:text-4xl"
+                  className="flex items-center gap-2 hover:text-blue-500 text-sm sm:text-xl md:text-2xl lg:text-3xl"
                 >
                   🏠 Centralise your media links.
                 </Link>

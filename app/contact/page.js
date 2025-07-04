@@ -12,8 +12,6 @@ export default function Home() {
         >
           Back To Menu
         </Link>*/}
-        <h1 className="text-3xl font-bold mt-4">Contact Developer</h1>
-        <p>Please fill in the form below</p>
 
         <ContactForm />
       </div>

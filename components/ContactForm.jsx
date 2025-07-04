@@ -1,106 +1,92 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react"; // ⬅️ Import session
+import { useRouter } from "next/navigation";
 
 export default function ContactForm() {
+  const { data: session } = useSession(); // ⬅️ Grab session
+  const router = useRouter();
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [error, setError] = useState([]);
+  const [responseMsg, setResponseMsg] = useState([]);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (session?.user) {
+      setFullname(session.user.name || "");
+      setEmail(session.user.email || "");
+    }
+  }, [session]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Full name: ", fullname);
-    console.log("Email: ", email);
-    console.log("Message: ", message);
-
-    const res = await fetch("api/contact", {
+    const res = await fetch("/api/contact", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        fullname,
-        email,
-        message,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullname, email, message }),
     });
 
-    const { msg, success } = await res.json();
-    setError(msg);
-    setSuccess(success);
+    const data = await res.json();
+    setResponseMsg(data.msg || []);
+    setSuccess(data.success || false);
 
-    if (success) {
-      setFullname("");
-      setEmail("");
-      setMessage("");
+    if (data.success) {
+      setMessage(""); // only reset message so user can send more
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
   };
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className="py-4 mt-4 border-t flex flex-col gap-5"
-      >
-        <div>
-          <label htmlFor="fullname">Full Name</label>
-          <input
-            onChange={(e) => setFullname(e.target.value)}
-            value={fullname}
-            type="text"
-            id="fullname"
-            placeholder="John Doe"
-            className="bg-white"
-          />
-        </div>
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-3xl font-bold">Contact Developer</h1>
+      <p className="mb-4">Please add your message below</p>
 
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            type="text"
-            id="email"
-            placeholder="john@gmail.com"
-            className="bg-white"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="message">Your Message</label>
-          <textarea
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-            className="h-32"
-            id="message"
-            placeholder="Type your message here..."
-          ></textarea>
-        </div>
-
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          value={fullname}
+          onChange={(e) => setFullname(e.target.value)}
+          placeholder="Your Full Name"
+          className="w-full p-2 border rounded"
+          readOnly={!!session?.user?.name} // optional: prevent editing
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="w-full p-2 border rounded"
+          readOnly={!!session?.user?.email} // optional: prevent editing
+        />
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Your message..."
+          className="w-full p-2 border rounded h-32"
+        ></textarea>
         <button
-          className="bg-purple-600 p-3 text-white rounded-md"
           type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Send
+          Send Message
         </button>
       </form>
 
-      <div className="bg-slate-100 flex flex-col rounded-md">
-        {error &&
-          error.map((e, index) => (
-            <div
-              key={index} // Adding a unique key
-              className={`${
-                success ? "text-green-800" : "text-red-600"
-              } px-5 py-2`}
-            >
-              {e}
-            </div>
-          ))}
+      <div className="mt-4 space-y-2">
+        {responseMsg.map((msg, idx) => (
+          <p
+            key={idx}
+            className={`text-sm ${success ? "text-green-600" : "text-red-600"}`}
+          >
+            {msg}
+          </p>
+        ))}
       </div>
-    </>
+    </div>
   );
 }

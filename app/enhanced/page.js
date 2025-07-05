@@ -223,7 +223,7 @@ export default function Home() {
         {loading ? (
           <p className="text-gray-500">Loading...</p>
         ) : (
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto scrollbar-hide">
             {filteredUrls.map((media) => (
               <li
                 key={media._id}

@@ -105,7 +105,8 @@ export default function HomePage() {
 
   const onPlayerStateChange = (event) => {
     const state = event.data;
-    if (state === 1) setIsPlaying(true); // playing
+    if (state === 1)
+      setIsPlaying(true); // playing
     else if (state === 2 || state === 0) setIsPlaying(false); // paused or ended
   };
 
@@ -155,8 +156,8 @@ export default function HomePage() {
                   visitCount >= 3
                     ? "text-red-600"
                     : visitCount === 2
-                    ? "text-orange-600"
-                    : "text-gray-600"
+                      ? "text-orange-600"
+                      : "text-gray-600"
                 }`}
               >
                 {visitCount >= 3

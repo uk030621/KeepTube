@@ -232,7 +232,11 @@ const YouTubeSearch = () => {
 
                 <div className="flex gap-2 mt-2">
                   <button
-                    className="bg-green-700 text-white px-3 py-1 rounded-md"
+                    className={`${
+                      previewVideoId === video.id.videoId
+                        ? "bg-red-600"
+                        : "bg-green-700"
+                    } text-white px-3 py-1 rounded-md`}
                     onClick={() =>
                       setPreviewVideoId(
                         previewVideoId === video.id.videoId

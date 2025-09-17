@@ -12,6 +12,7 @@ const AutoLogout = () => {
   const [showModal, setShowModal] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const hasLoggedOutRef = useRef(false); // Prevent modal after logout
+  const hardLimitRef = useRef(null); // 5hr hard logout timer
 
   // 🕒 Start inactivity timer
   const startInactivityTimer = useCallback(() => {
@@ -82,6 +83,23 @@ const AutoLogout = () => {
     return () => {
       clearInterval(interval);
       observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    hardLimitRef.current = setTimeout(
+      () => {
+        if (!hasLoggedOutRef.current) {
+          hasLoggedOutRef.current = true;
+          setShowModal(false);
+          signOut();
+        }
+      },
+      5 * 60 * 60 * 1000
+    ); // 5 hours
+
+    return () => {
+      clearTimeout(hardLimitRef.current);
     };
   }, []);
 

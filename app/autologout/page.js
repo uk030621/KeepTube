@@ -5,7 +5,6 @@ import { signOut } from "next-auth/react";
 
 const INACTIVITY_LIMIT = 400 * 60 * 1000; // 240 minutes
 const MODAL_TIMEOUT = 30 * 1000; // 30 seconds
-const SESSION_LIMIT = 5 * 60 * 60 * 1000; // 5 hours
 
 const AutoLogout = () => {
   const timeoutRef = useRef(null); // Inactivity timer
@@ -13,7 +12,7 @@ const AutoLogout = () => {
   const [showModal, setShowModal] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const hasLoggedOutRef = useRef(false); // Prevent modal after logout
-  const hardLimitRef = useRef(null); // 5hr hard logout timer
+  //const hardLimitRef = useRef(null); // 5hr hard logout timer
 
   // 🕒 Start inactivity timer
   const startInactivityTimer = useCallback(() => {
@@ -87,41 +86,24 @@ const AutoLogout = () => {
     };
   }, []);
 
-  // ⏱ Persistent hard logout after 5 hours
-  useEffect(() => {
-    const now = Date.now();
-    const storedStart = localStorage.getItem("sessionStart");
-
-    let sessionStart;
-
-    if (storedStart) {
-      sessionStart = parseInt(storedStart, 10);
-    } else {
-      sessionStart = now;
-      localStorage.setItem("sessionStart", sessionStart);
-    }
-
-    const elapsed = now - sessionStart;
-
-    if (elapsed >= SESSION_LIMIT) {
-      hasLoggedOutRef.current = true;
-      setShowModal(false);
-      signOut({ callbackUrl: "/logged-out?reason=hard-timeout" });
-    } else {
-      const remaining = SESSION_LIMIT - elapsed;
-      hardLimitRef.current = setTimeout(() => {
+  {
+    /*useEffect(() => {
+    hardLimitRef.current = setTimeout(
+      () => {
         if (!hasLoggedOutRef.current) {
           hasLoggedOutRef.current = true;
           setShowModal(false);
-          signOut({ callbackUrl: "/logged-out?reason=hard-timeout" });
+          signOut();
         }
-      }, remaining);
-    }
+      },
+      5 * 60 * 60 * 1000
+    ); // 5 hours
 
     return () => {
       clearTimeout(hardLimitRef.current);
     };
-  }, []);
+  }, []);*/
+  }
 
   // ✅ Modal actions
   const handleStayLoggedIn = () => {

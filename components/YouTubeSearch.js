@@ -263,15 +263,19 @@ const YouTubeSearch = () => {
                 {/* Render YouTube iframe preview if selected */}
                 {previewVideoId === video.id.videoId && (
                   <div className="mt-4">
-                    <iframe
-                      width="100%"
-                      height="215"
-                      src={`https://www.youtube.com/embed/${video.id.videoId}`}
-                      title="YouTube video preview"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="rounded-md"
-                    ></iframe>
+                    {/* NEW WRAPPER CLASS BELOW */}
+                    <div className="video-responsive-wrapper">
+                      <iframe
+                        // Remove fixed height and width props when using CSS wrapper
+                        // width="100%"
+                        // height="215"
+                        src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                        title="YouTube video preview"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-md" // Keep your existing styling
+                      ></iframe>
+                    </div>
                   </div>
                 )}
               </div>

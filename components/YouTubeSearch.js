@@ -26,7 +26,13 @@ const YouTubeSearch = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setVideos(data.items);
+        // FILTERING LOGIC:
+        // Only keep items that have a valid videoId
+        const validVideos = data.items.filter(
+          (item) => item.id && item.id.videoId
+        );
+
+        setVideos(validVideos);
         setError(null);
       } else {
         setError(data.error || "Something went wrong");
@@ -209,9 +215,10 @@ const YouTubeSearch = () => {
         {error && <p className="text-gray-500 mt-4">{error}</p>}
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {videos.map((video) => (
+          {videos.map((video, index) => (
             <div
-              key={video.id.videoId}
+              // Use the videoId, but fallback to index if something is weird
+              key={video.id.videoId || `video-${index}`}
               className="border p-4 flex flex-col rounded-md bg-white shadow-md"
             >
               <Image
